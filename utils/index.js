@@ -13,20 +13,28 @@ var __assign = (this && this.__assign) || function () {
 exports.__esModule = true;
 var utils_1 = require("./utils");
 var vue2_1 = require("./utils/vue2");
-Function.prototype.argumentNames = function () {
-    var names = this.toString().match(/^[\s\(]*function[^(]*\(([^)]*)\)/)[1]
-        .replace(/\/\/.*?[\r\n]|\/\*(?:.|[\r\n])*?\*\//g, '')
-        .replace(/\s+/g, '').split(',');
-    return names.length == 1 && !names[0] ? [] : names;
-};
+var create_1 = require("./create");
 var CategoryEdit = 'CategoryEdit';
 var CategoryCreate = 'CategoryCreate';
 var exampleInputData = {
     name: 'Categories',
     components: { CategoryEdit: CategoryEdit, CategoryCreate: CategoryCreate },
     data: function () { return ({
-        categories: [],
-        loading: true,
+        array: ['hello'],
+        boolean: true,
+        number: 0,
+        float: 0.1234,
+        string: 'I am fine',
+        object: {
+            hello: 'i know'
+        },
+        deepObject: {
+            deepArray: ['one', ['one', 'two']],
+            anotherObject: {
+                wow: 'nice',
+                bool: false
+            }
+        },
         updateCount: 0
     }); },
     props: {
@@ -35,12 +43,19 @@ var exampleInputData = {
     },
     watch: {
         item3: function (val, old) {
+            console.log(val + old);
+        },
+        deepObject: function (val, old) {
+            console.log('deepObject watched');
         }
     },
     computed: {
         item4: function () {
             return 1 + 2;
         }
+    },
+    beforeDestroy: function () {
+        console.log('bye bye');
     },
     mounted: function () {
         var data = {
@@ -123,6 +138,11 @@ function parser(input) {
             }
         }
     });
-    console.log(result);
+    return result;
 }
-parser(exampleInputData);
+var parsedObject = parser(exampleInputData);
+var result = create_1.create(parsedObject);
+exports["default"] = (function (text) {
+    // @ts-ignore
+    return create_1.create(parser(JSON.stringify(text)));
+});

@@ -2,12 +2,8 @@ import { ComponentOptions, KeysType } from './types'
 import { transformObjectToArray, transformObjectToArrayWithName } from './utils'
 import { toVue3HookName } from './utils/vue2'
 
-(Function.prototype as any).argumentNames = function () {
-  const names = this.toString().match(/^[\s\(]*function[^(]*\(([^)]*)\)/)[1]
-    .replace(/\/\/.*?[\r\n]|\/\*(?:.|[\r\n])*?\*\//g, '')
-    .replace(/\s+/g, '').split(',')
-  return names.length == 1 && !names[0] ? [] : names
-}
+
+import { create } from './create';
 
 const CategoryEdit = 'CategoryEdit'
 const CategoryCreate = 'CategoryCreate'
@@ -16,8 +12,21 @@ const exampleInputData: ComponentOptions<any> = {
   name: 'Categories',
   components: {CategoryEdit, CategoryCreate},
   data: () => ({
-    categories: [],
-    loading: true,
+    array: ['hello'],
+    boolean: true,
+    number: 0,
+    float: 0.1234,
+    string: 'I am fine',
+    object: {
+      hello: 'i know'
+    },
+    deepObject: {
+      deepArray: ['one', ['one', 'two']],
+      anotherObject: {
+        wow: 'nice',
+        bool: false,
+      }
+    },
     updateCount: 0
   }),
   props: {
@@ -26,12 +35,19 @@ const exampleInputData: ComponentOptions<any> = {
   },
   watch: {
     item3: (val, old) => {
+      console.log(val+old)
+    },
+    deepObject: (val, old) => {
+      console.log('deepObject watched')
     }
   },
   computed: {
     item4() {
       return 1 + 2
     }
+  },
+  beforeDestroy(): void {
+    console.log('bye bye')
   },
   mounted() {
     const data = {
@@ -118,6 +134,14 @@ function parser(input: ComponentOptions<any>) {
       }
     }
   })
+  return result
 }
 
-parser(exampleInputData)
+const parsedObject = parser(exampleInputData)
+
+const result = create(parsedObject)
+
+export default (text: string) => {
+  // @ts-ignore
+  return create(parser(JSON.stringify(text)))
+}
