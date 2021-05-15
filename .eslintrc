@@ -1,0 +1,73 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "google",
+    "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "project": [
+      "tsconfig.json"
+    ],
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "prettier/prettier": "warn",
+    "typescript-eslint/ban-types": "off",
+    "no-console": "off",
+    "import/no-cycle": "off",
+    "class-methods-use-this": "off",
+    "max-classes-per-file": "off",
+    "func-names": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "no-param-reassign": "off",
+    "radix": "off",
+    "import/prefer-default-export": "off",
+    "no-plusplus": "off",
+    "semi": [
+      "error",
+      "never"
+    ],
+    "no-unused-vars": "off",
+    "quote-props": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 100,
+        "tabWidth": 2
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-use-before-define": "off",
+    "arrow-parens": "off",
+    "comma-dangle": "off",
+    "linebreak-style": "off",
+    "new-cap": "off",
+    "indent": "off",
+    "require-jsdoc": "off",
+    "semi-style": "off",
+    "object-curly-spacing": "off",
+    "@typescript-eslint/camelcase": "off",
+    "member-delimiter-style": 0,
+    "@typescript-eslint/member-delimiter-style": 0,
+    "implicit-arrow-linebreak": 0,
+    "@typescript-eslint/explicit-function-return-type": 0
+  }
+}

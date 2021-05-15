@@ -1,4 +1,4 @@
-import { toVue3HookName } from './utils/vue2';
+import { toVue3HookName } from './utils/vue2'
 
 const splitter = '\n'
 
@@ -14,22 +14,22 @@ const hooks: string[] = [
 ].map(_ => toVue3HookName(_))
 
 export const create = (object: any): string => {
-	console.log(object);
+	console.log(object)
 	const builder = []
 
-	builder.push(addImportComponents(object.components));
-	builder.push(addImportVue(object));
+	builder.push(addImportComponents(object.components))
+	builder.push(addImportVue(object))
 	builder.push(addOpen())
 	builder.push(addComponents(object.components))
 	builder.push(addProps(object.props))
-	builder.push(addSetup(object));
+	builder.push(addSetup(object))
 	builder.push(addClose())
 
-	const result = builder.join(splitter);
+	const result = builder.join(splitter)
 	return result
 }
 
-const addImportComponents = (imports: string[], from: string = 'path'): string => `import {${imports.join(',')}} from '${from}'`
+const addImportComponents = (imports: string[], from = 'path'): string => `import {${imports.join(',')}} from '${from}'`
 
 const addImportVue = (object): string => {
 	let imports: string[] = ['reactive',...getUsedHooks(object)]
