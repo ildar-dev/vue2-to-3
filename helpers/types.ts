@@ -1,14 +1,20 @@
+import { vue2ConnectionsValues } from './utils/vue2'
+
 type BasicType = string | number | boolean | Object
 
-export type IncomingPropsType = {
-  [propName: string]: {
-    type: BasicType
-  } | BasicType
-} | string
+export type IncomingPropsType =
+  | {
+      [propName: string]:
+        | {
+            type: BasicType
+          }
+        | BasicType
+    }
+  | string
 
 export type PropsType = ''
 
-export type DataItemType = Record<string,any>
+export type DataItemType = Record<string, any>
 
 export type MethodsType = {}
 
@@ -36,20 +42,48 @@ export type RecordPropsDefinition<T> = {
   [K in keyof T]: PropValidator<T[K]>
 }
 
-export type PropValidator<T> = PropOptions<T> | PropType<T>;
+export enum EPropertyType {
+  Method = 'Method',
+  Data = 'Data',
+  Hook = 'Hook',
+  Computed = 'Computed',
+  Provide = 'Provide',
+  Inject = 'Inject',
+  Watch = 'Watch'
+}
+
+export type ConnectionType = Array<{ type: VueDataKeys, field: any }>
+
+export type VueDataKeys = typeof vue2ConnectionsValues[number]
+
+export interface IComponentVariable {
+  value: any
+  type: EPropertyType
+  connections?: ConnectionType
+}
+
+export interface IComponent {
+  components?: string[]
+  name: string
+  props?: string[]
+  properties: IComponentVariable[]
+}
+
+export type InitialIComponent = Partial<IComponent>
+export type PropValidator<T> = PropOptions<T> | PropType<T>
 
 export interface PropOptions<T = any> {
   type?: PropType<T>
   required?: boolean
-  default?: T | null | undefined | (() => T | null | undefined)
+  default?: T | null | (() => T | null | undefined)
 
   validator?(value: T): boolean
 }
 
 export type Prop<T> =
-  { (): T }
-  | { new(...args: never[]): T & object }
-  | { new(...args: string[]): Function }
+  | { (): T }
+  | { new (...args: never[]): T & object }
+  | { new (...args: string[]): Function }
 
 export type PropType<T> = Prop<T> | Prop<T>[]
 
@@ -67,13 +101,15 @@ export interface WatchOptionsWithHandler<T> extends WatchOptions {
   handler: WatchHandler<T>
 }
 
-export interface ComponentOptions<V extends {},
+export interface ComponentOptions<
+  V extends {},
   Data = DefaultData<V>,
   Methods = DefaultMethods<V>,
   Computed = DefaultComputed,
   PropsDef = PropsDefinition<DefaultProps>,
-// @ts-ignore
-  Props = DefaultProps> {
+  // @ts-ignore
+  Props = DefaultProps
+> {
   data?: Data
   props?: PropsDef
   computed?: Accessors<Computed>
@@ -98,7 +134,11 @@ export interface ComponentOptions<V extends {},
 
   components?: any
 
-  name?: string;
+  inject?: any
+
+  provide?: any
+
+  name?: string
 }
 
 export type KeysType = keyof ComponentOptions<any>

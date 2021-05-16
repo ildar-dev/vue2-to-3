@@ -1,15 +1,15 @@
-export const vue2Imports = ['watch', 'computed']
+export const vue2ConnectionsValues = ['inject', 'computed', 'data', 'props'] as const
 
 export const vue2Hooks = [
-    'beforeCreate',
-    'created',
-    'beforeMount',
-    'mounted',
-    'beforeUpdated',
-    'updated',
-    'beforeDestroy',
-    'destroyed',
-  ]
+  'beforeCreate',
+  'created',
+  'beforeMount',
+  'mounted',
+  'beforeUpdated',
+  'updated',
+  'beforeDestroy',
+  'destroyed'
+]
 
 export const vue2HooksDeprecated = ['beforeCreate', 'created']
 
