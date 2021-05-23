@@ -7,7 +7,8 @@ import {
   ComponentOptions,
   ConnectionType,
   EPropertyType,
-  IComponent, IComponentVariable,
+  IComponent,
+  IComponentVariable,
   InitialIComponent,
   KeysType,
   VueDataKeys
@@ -30,14 +31,15 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
 
   keys.forEach((i) => {
     const item = input[i]
-    let connections: ConnectionType = []
 
     const addConnection = (cb: () => void) => {
       const bodyText = cb.toString()
+      let connections: ConnectionType = []
       const deps = findDeps(bodyText, vueConnectionKeysToValue)
       if (deps) {
-        connections = [...connections, ...deps]
+        connections = [...deps]
       }
+      return connections
     }
 
     const addNewProperty = ({ type, connections, value }: IComponentVariable) => {
@@ -54,14 +56,22 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
     switch (i) {
       case 'data': {
         const data = typeof item === 'object' ? item : item()
-        addNewProperty({
-          type: EPropertyType.Data,
-          value: transformObjectToArrayWithName(data)
+        transformObjectToArrayWithName(data).forEach((v) => {
+          addNewProperty({
+            type: EPropertyType.Data,
+            value: v
+          })
         })
         break
       }
       case 'props': {
         result[i] = item.slice ? item : transformObjectToArray(item)
+        break
+      }
+      case 'inject': {
+        (item.slice ? item : transformObjectToArray(item)).forEach((v: any) => {
+          addNewProperty({ type: EPropertyType.Inject, value: v })
+        })
         break
       }
       case 'watch': {
@@ -77,22 +87,46 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
           }
           return watchResult
         })
-        addNewProperty({
-          type: EPropertyType.Watch,
-          value: watchValues,
-          connections
+        watchValues.forEach((v) => {
+          const connections = addConnection((v as { handler: () => void }).handler)
+          addNewProperty({
+            type: EPropertyType.Watch,
+            value: v,
+            connections
+          })
         })
+
+        break
+      }
+      case 'provide': {
+        if (typeof item === 'function') {
+          const connections = addConnection(item)
+          addNewProperty({
+            type: EPropertyType.Provide,
+            value: item,
+            connections
+          })
+        } else {
+          Object.keys(item).forEach(v => {
+            const connections = addConnection(() => item[v])
+            addNewProperty({
+              type: EPropertyType.Provide,
+              value: item[v],
+              connections
+            })
+          })
+        }
         break
       }
       case 'computed':
       case 'methods': {
-        Object.values(item).forEach((field) => {
-          addConnection(field as () => void)
-        })
-        addNewProperty({
-          type: i === 'computed' ? EPropertyType.Computed : EPropertyType.Method,
-          value: transformObjectToArrayWithName(item),
-          connections
+        transformObjectToArrayWithName(item).forEach((v) => {
+          const connections = addConnection(Object.values(v)[0] as () => void)
+          addNewProperty({
+            type: i === 'computed' ? EPropertyType.Computed : EPropertyType.Method,
+            value: v,
+            connections
+          })
         })
         break
       }
@@ -104,6 +138,7 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
       case 'created':
       case 'updated':
       case 'destroyed': {
+        const connections = addConnection(item as () => void)
         addNewProperty({
           type: EPropertyType.Hook,
           value: {
