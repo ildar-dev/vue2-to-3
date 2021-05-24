@@ -5,7 +5,7 @@ import { transformObjectToArray, transformObjectToArrayWithName } from '../helpe
 import { toVue3HookName } from '../helpers/utils/vue2'
 import {
   ComponentOptions,
-  ConnectionType,
+  ConnectionsType,
   EPropertyType,
   IComponent,
   IComponentVariable,
@@ -13,6 +13,8 @@ import {
   KeysType,
   VueDataKeys
 } from '../helpers/types'
+
+import { divide } from '../helpers/compositionDivide';
 
 function parser(input: ComponentOptions<any>): IComponent | undefined {
   const keys = Object.keys(input) as Array<KeysType>
@@ -34,7 +36,7 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
 
     const addConnection = (cb: () => void) => {
       const bodyText = cb.toString()
-      let connections: ConnectionType = []
+      let connections: ConnectionsType = []
       const deps = findDeps(bodyText, vueConnectionKeysToValue)
       if (deps) {
         connections = [...deps]
@@ -99,7 +101,6 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
         break
       }
       case 'provide': {
-        console.log(item)
         if (typeof item === 'function') {
           const connections = addConnection(item)
           Object.keys(item()).forEach(v => {
@@ -171,4 +172,6 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
 
 const parsedObject = parser(exampleInputData)
 
-console.log(parsedObject)
+// console.log(parsedObject?.properties.find(_ => _.id === "array"));
+console.log(divide(parsedObject!));
+
