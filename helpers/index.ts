@@ -24,17 +24,8 @@ export const exampleInputData: ComponentOptions<any> = {
     },
     updateCount: 0
   }),
-  provide(){
-    const appData = {}
-
-
-
-    return {
-
-      // @ts-ignore
-      updateCheckoutInfo: this.array,
-      appData,
-    }
+  provide:{
+    i:'1',
   },
   props: {
     item: String,

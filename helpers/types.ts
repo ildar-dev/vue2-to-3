@@ -52,12 +52,14 @@ export enum EPropertyType {
   Watch = 'Watch'
 }
 
-export type ConnectionType = Array<{ type: VueDataKeys, field: any }>
+export type ConnectionType = Array<string>
 
 export type VueDataKeys = typeof vue2ConnectionsValues[number]
 
 export interface IComponentVariable {
-  value: any
+  value?: any
+  id: string;
+  name: string
   type: EPropertyType
   connections?: ConnectionType
 }

@@ -11,8 +11,5 @@ export const findDeps = (
     .match(splitter)
     ?.map((match) => match.split(splitterThis)[1])
     .filter(value => instanceDeps[value])
-    .map((value: any) => ({
-      type: instanceDeps[value],
-      field: value
-    }))
+    .map((value: any) =>  value)
 }

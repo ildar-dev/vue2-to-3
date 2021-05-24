@@ -42,13 +42,11 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
       return connections
     }
 
-    const addNewProperty = ({ type, connections, value }: IComponentVariable) => {
+    const addNewProperty = (propetries: IComponentVariable) => {
       result.properties = [
         ...(result.properties ?? []),
         {
-          type,
-          value,
-          connections
+          ...propetries
         }
       ]
     }
@@ -59,7 +57,7 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
         transformObjectToArrayWithName(data).forEach((v) => {
           addNewProperty({
             type: EPropertyType.Data,
-            value: v
+            ...v
           })
         })
         break
@@ -70,7 +68,7 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
       }
       case 'inject': {
         (item.slice ? item : transformObjectToArray(item)).forEach((v: any) => {
-          addNewProperty({ type: EPropertyType.Inject, value: v })
+          addNewProperty({ type: EPropertyType.Inject, name: v, id: v })
         })
         break
       }
@@ -85,13 +83,15 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
           } else {
             watchResult = { handler: watchItem, name: key }
           }
-          return watchResult
+          return watchResult as { handler: any, name: string }
         })
         watchValues.forEach((v) => {
           const connections = addConnection((v as { handler: () => void }).handler)
           addNewProperty({
             type: EPropertyType.Watch,
-            value: v,
+            value: v.handler,
+            name: v.name,
+            id:v.name,
             connections
           })
         })
@@ -99,12 +99,17 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
         break
       }
       case 'provide': {
+        console.log(item)
         if (typeof item === 'function') {
           const connections = addConnection(item)
-          addNewProperty({
-            type: EPropertyType.Provide,
-            value: item,
-            connections
+          Object.keys(item()).forEach(v => {
+            addNewProperty({
+              type: EPropertyType.Provide,
+              value: item[v],
+              name: v,
+              id: v,
+              connections
+            })
           })
         } else {
           Object.keys(item).forEach(v => {
@@ -112,6 +117,8 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
             addNewProperty({
               type: EPropertyType.Provide,
               value: item[v],
+              name: v,
+              id: v,
               connections
             })
           })
@@ -124,7 +131,7 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
           const connections = addConnection(Object.values(v)[0] as () => void)
           addNewProperty({
             type: i === 'computed' ? EPropertyType.Computed : EPropertyType.Method,
-            value: v,
+            ...v,
             connections
           })
         })
@@ -139,12 +146,12 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
       case 'updated':
       case 'destroyed': {
         const connections = addConnection(item as () => void)
+        const name = toVue3HookName(i)
         addNewProperty({
           type: EPropertyType.Hook,
-          value: {
-            hookName: toVue3HookName(i),
-            body: transformObjectToArrayWithName(item)
-          },
+          name,
+          value: item,
+          id: name,
           connections
         })
         break
