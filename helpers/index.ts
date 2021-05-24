@@ -59,25 +59,25 @@ export const exampleInputData: ComponentOptions<any> = {
     //   console.log('deepObject watched', val, old)
     // }
   },
-  // computed: {
-  //   item4() {
-  //     // @ts-ignore
-  //     return 1 + this.number
-  //   }
-  // },
-  // beforeDestroy(): void {
-  //   console.log('bye bye')
-  // },
+  computed: {
+    item4() {
+      // @ts-ignore
+      return 1 + this.number
+    }
+  },
+  beforeDestroy(): void {
+    console.log('bye bye')
+  },
   // mounted() {
   //   const data = {
   //     a: () => {}
   //   }
   // },
   methods: {
-    // addNewCategory() {
-    //   this.some;
-    //   this.another;
-    // },
+    addNewCategory() {
+      this.some;
+      this.another;
+    },
     // updateCategories(category) {
     //   const idx = this.categories.findIndex((c: { id: string }) => c.id === category.id)
     //   this.categories[idx].title = category.title

@@ -15,6 +15,7 @@ import {
 } from '../helpers/types'
 
 import { divide } from '../helpers/compositionDivide';
+import { stringify } from '../helpers/create';
 
 function parser(input: ComponentOptions<any>): IComponent | undefined {
   const keys = Object.keys(input) as Array<KeysType>
@@ -172,6 +173,10 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
 
 const parsedObject = parser(exampleInputData)
 
-// console.log(parsedObject?.properties.find(_ => _.id === "array"));
-console.log(divide(parsedObject!));
+const dividedObject = divide(parsedObject!);
+// console.log(dividedObject);
+
+const stringified = dividedObject.map(d => stringify(d));
+
+stringified.forEach(s => console.log(s));
 

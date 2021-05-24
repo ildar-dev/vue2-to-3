@@ -54,8 +54,6 @@ export const getComponents = (componentVue: IComponent): number[][] => { // ALHO
   let order: number[] = [];
   let component: number[] = [];
   const components: number[][] = [];
-
-  // console.log(componentVue.properties);
   
   componentVue.properties.forEach((v, a) => {
     let a1 = +a;
