@@ -19,30 +19,37 @@ const getProperties = (object: IComponent, type: EPropertyType): IComponentVaria
 }
 
 export const stringify = (object: IComponent): string => {
-  console.log(object)
-  const builder = []
+  const builder: string[] = []
 
-  builder.push(addImportComponents(object.components))
-  builder.push(addImportVue(object))
-  builder.push(addOpen())
-  builder.push(addName(object.name))
-  builder.push(addComponents(object.components))
-  builder.push(addProps(object.props))
-  builder.push(addSetup(object))
-  builder.push(addClose())
+  const buildFunctions = [
+    addImportComponents,
+    addImportVue,
+    addOpen,
+    addName,
+    addComponents,
+    addProps,
+    addSetup,
+    addClose
+  ]
+
+  buildFunctions.forEach(f => {
+    builder.push(f(object));
+  });
 
   const result = builder.join(splitter)
   return result
 }
 
-const addName = (name: string): string => {
-  return `name: '${name}',`;
+const addName = (object: IComponent): string => {
+  return `name: '${object.name}',`;
 }
 
-const addImportComponents = (imports?: string[], from = 'path'): string =>
-  imports && imports.length
+const addImportComponents = (object: IComponent, from = 'path'): string => {
+  const imports = object.components;
+  return imports && imports.length
     ? `import {${imports.join(',')}} from '${from}'`
     : '';
+}
 
 
 const addImportVue = (object: IComponent): string => {
@@ -57,15 +64,18 @@ const addImportVue = (object: IComponent): string => {
 
 const addOpen = (): string => 'export default {'
 
-const addComponents = (components?: string[]): string => 
-  components
+const addComponents = (object: IComponent): string => {
+  const components = object.components;
+  return components
     ? `components: {${components.join(',')}}`
     : ''
+}
 
 const addClose = (): string => '}'
 
 
-const addProps = (props?: string[]): string => {
+const addProps = (object: IComponent): string => {
+  const props = object.props;
   if (!props) {
     return ''
   }
@@ -75,17 +85,44 @@ const addProps = (props?: string[]): string => {
 
 const addSetup = (object: IComponent): string => {
   const builder = []
+  const buildFunctions = [
+    {
+      func: addData,
+      type: EPropertyType.Data,
+    },
+    {
+      func: addComputed,
+      type: EPropertyType.Computed,
+    },
+    {
+      func: addWatch,
+      type: EPropertyType.Watch,
+    },
+    {
+      func: addMethods,
+      type: EPropertyType.Method,
+    },
+    {
+      func: addHooks,
+      type: EPropertyType.Hook,
+    },
+  ];
   builder.push('setup(){')
 
-  builder.push(addData(getProperties(object, EPropertyType.Data)))
-  builder.push(addComputed(getProperties(object, EPropertyType.Computed)))
-  builder.push(addWatch(getProperties(object, EPropertyType.Watch)))
-  builder.push(addMethods(getProperties(object, EPropertyType.Method)))
-  builder.push(addHooks(getProperties(object, EPropertyType.Hook)))
+  buildFunctions.forEach(f => {
+    builder.push(f.func(getProperties(object, f.type)));
+  });
+
+  builder.push(addReturned(object));
+
   builder.push('}')
 
   const result = builder.join(splitter)
   return result
+}
+
+const addReturned = (object: IComponent) => {
+  return `return {${object.properties.map(p => p.name).join(','+ splitter)}}`;
 }
 
 const addData = (data: IComponentVariable[]): string => {
@@ -127,10 +164,6 @@ const addHooks = (hooks: IComponentVariable[]): string => {
   })
   return builder.join(splitter)
 }
-
-// const getUsedHooks = (object): string[] => {
-//   return Object.keys(object).filter((key) => hooks.indexOf(key) !== -1) // use includes since ts 2.1
-// }
 
 const toString = (item: any): string => {
   if (Array.isArray(item)) {
