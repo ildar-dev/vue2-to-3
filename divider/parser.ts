@@ -130,7 +130,7 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
       case 'computed':
       case 'methods': {
         transformObjectToArrayWithName(item).forEach((v) => {
-          const connections = addConnection(Object.values(v)[0] as () => void)
+          const connections = addConnection(v.value as () => void)
           addNewProperty({
             type: i === 'computed' ? EPropertyType.Computed : EPropertyType.Method,
             ...v,
