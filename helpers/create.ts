@@ -25,6 +25,7 @@ export const stringify = (object: IComponent): string => {
   builder.push(addImportComponents(object.components))
   builder.push(addImportVue(object))
   builder.push(addOpen())
+  builder.push(addName(object.name))
   builder.push(addComponents(object.components))
   builder.push(addProps(object.props))
   builder.push(addSetup(object))
@@ -32,6 +33,10 @@ export const stringify = (object: IComponent): string => {
 
   const result = builder.join(splitter)
   return result
+}
+
+const addName = (name: string): string => {
+  return `name: '${name}',`;
 }
 
 const addImportComponents = (imports?: string[], from = 'path'): string =>
