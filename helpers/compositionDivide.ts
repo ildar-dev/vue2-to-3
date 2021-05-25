@@ -116,9 +116,23 @@ export const getComponents = (componentVue: IComponent): number[][] => { // ALHO
   return components;
 }
 
-export const divide = (componentVue: IComponent): IComponent[] => {
+export const divide = (componentVue: IComponent, groupSingle = true): IComponent[] => {
   console.log(componentVue);
-  const components = getComponents(componentVue)
+
+  let components = getComponents(componentVue);
+
+  if (groupSingle) {
+    let singles: number[] = [];
+    components.forEach(c => {
+      if (c.length === 1) {
+        singles.push(c[0])
+      }
+    });
+    components = components.filter(c => c.length > 1);
+    components.push(singles);
+  }
+
+  let componentsVue = components
     .sort((c) => c.length)
     .map(c => {
     return {
@@ -127,15 +141,17 @@ export const divide = (componentVue: IComponent): IComponent[] => {
     }
   });
 
-  return components
+  return componentsVue
     .map((_, i) => {
-      if (i === 0) {
+      if (i === componentsVue.length - 1) {
         // general component
         return _;
       } else {
+        let nameComposition = [..._.properties].sort(p => p.name.length)[0].name;
+        nameComposition = nameComposition.charAt(0).toUpperCase() + nameComposition.slice(1);
         return {
           components: [],
-          name: `Composition${componentVue.name}${i}`,
+          name: `Composition${componentVue.name}${nameComposition}`,
           props: [],
           properties: _.properties
         }
