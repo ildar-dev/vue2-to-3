@@ -36,9 +36,8 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
     const item = input[i]
 
     const addConnection = (cb: () => void) => {
-      const bodyText = cb.toString()
       let connections: ConnectionsType = []
-      const deps = findDeps(bodyText, vueConnectionKeysToValue)
+      const deps = findDeps(cb, vueConnectionKeysToValue)
       if (deps) {
         connections = [...deps]
       }

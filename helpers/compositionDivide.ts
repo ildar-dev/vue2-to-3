@@ -34,6 +34,10 @@ export const getComponents = (componentVue: IComponent): number[][] => { // ALHO
     let a1 = +a;
     v.connections?.forEach(function (c: TId) {
       const b = componentVue.properties.findIndex(_ => _.id === c);
+      if (b == -1) {
+        return;
+      }
+      console.log(a1,b);
       g[a1].push(b);
 
       gr[b].push(a1);
@@ -92,7 +96,6 @@ export const getComponents = (componentVue: IComponent): number[][] => { // ALHO
 }
 
 export const divide = (componentVue: IComponent, groupSingle = true): IComponent[] => {
-  console.log(componentVue);
 
   let components = getComponents(componentVue);
 

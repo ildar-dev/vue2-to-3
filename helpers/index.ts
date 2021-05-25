@@ -7,9 +7,10 @@ export const exampleInputData: ComponentOptions<any> = {
   name: 'Categories',
   components: { CategoryEdit, CategoryCreate },
   data: () => ({
-    some: 'qqq',
-    another: 'salam',
+    some: 9,
+    another: 9,
     test: ['hello'],
+    number: 0,
     // boolean: true,
     // number: 0,
     // float: 0.1234,
@@ -34,50 +35,53 @@ export const exampleInputData: ComponentOptions<any> = {
   //   item2: Number
   // },
   watch: {
-    anotherWatcher: (val, old) => {
+    anotherWatcher: function ()  {
       // @ts-ignore
-      console.log(this.another)
-      console.log(val + old)
+      this.another;
     },
 
-    someWatcher: (val, old) => {
+    someWatcher: function() {
       // @ts-ignore
-      console.log(this.some)
-      console.log(val + old)
+      this.some--;
+    },
+    someWatcher1: function() {
+      // @ts-ignore
+      this.some++;
     },
     someAnotherWatcher: () => {
       // @ts-ignore
-      console.log(this.some)
+      this.some++;
       // @ts-ignore
-      console.log(this.another)
+      this.another++;
     },
-    test: () => { 
-      // @ts-ignore
-      console.log(this.test);
-    }
+    // test: () => { 
+    //   // @ts-ignore
+    //   this.test;
+    // }
     // deepObject: (val, old) => {
     //   console.log('deepObject watched', val, old)
     // }
   },
   computed: {
-    item4() {
-      // @ts-ignore
-      return 1 + this.number
-    }
+    // item4() {
+    //   // @ts-ignore
+    //   return 1 + this.number
+    // }
   },
-  beforeDestroy(): void {
-    console.log('bye bye')
-  },
+  // beforeDestroy(): void {
+  //   // @ts-ignore
+  //   this.some++;
+  // },
   // mounted() {
   //   const data = {
   //     a: () => {}
   //   }
   // },
   methods: {
-    addNewCategory() {
-      this.some;
-      this.another;
-    },
+    // addNewCategory() {
+    //   this.some;
+    //   this.another;
+    // },
     // updateCategories(category) {
     //   const idx = this.categories.findIndex((c: { id: string }) => c.id === category.id)
     //   this.categories[idx].title = category.title
