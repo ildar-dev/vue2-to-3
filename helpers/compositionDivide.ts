@@ -5,31 +5,6 @@ import {
   TId
 } from '../helpers/types'
 
-// export enum EPropertyType {
-//   Method,
-//   Data,
-//   Hook,
-//   Computed,
-//   Provide,
-//   Inject,
-//   Watch
-// }
-
-// export interface IComponentVariable {
-//   value: any
-//   type: EPropertyType
-//   connections?: string[]
-// }
-
-// export interface IComponent {
-//   components?: string[]
-//   name: string
-//   props?: string[]
-//   properties: IComponentVariable[]
-// }
-
-// export type InitialIComponent = Partial<IComponent>
-
 interface IDFS {
   value:
     | {

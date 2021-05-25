@@ -174,7 +174,6 @@ function parser(input: ComponentOptions<any>): IComponent | undefined {
 const parsedObject = parser(exampleInputData)
 
 const dividedObject = divide(parsedObject!);
-// console.log(dividedObject);
 
 const stringified = dividedObject.map(d => stringify(d));
 
