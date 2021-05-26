@@ -170,11 +170,4 @@ export function parser(input: ComponentOptions<any>): IComponent | undefined {
   return result ? (result as IComponent) : undefined
 }
 
-const parsedObject = parser(exampleInputData)
-
-const dividedObject = divide(parsedObject!);
-
-const stringified = dividedObject.map(d => stringify(d));
-
-stringified.forEach(s => console.log(`${s}\n\n`));
 
