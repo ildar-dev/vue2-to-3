@@ -17,7 +17,7 @@ import {
 import { divide } from '../helpers/compositionDivide';
 import { stringify } from '../helpers/create';
 
-function parser(input: ComponentOptions<any>): IComponent | undefined {
+export function parser(input: ComponentOptions<any>): IComponent | undefined {
   const keys = Object.keys(input) as Array<KeysType>
   const initialParseResult = initialParse(input)
   const vueConnectionKeysToValue = (Object.keys(initialParseResult.data) as [VueDataKeys]).reduce(
@@ -176,5 +176,5 @@ const dividedObject = divide(parsedObject!);
 
 const stringified = dividedObject.map(d => stringify(d));
 
-stringified.forEach(s => console.log(s));
+stringified.forEach(s => console.log(`${s}\n\n`));
 

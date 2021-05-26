@@ -36,7 +36,7 @@ export const stringify = (object: IComponent): string => {
     builder.push(f(object));
   });
 
-  const result = builder.join(splitter)
+  const result = builder.filter(s => s?.length).join(splitter)
   return result
 }
 
@@ -66,8 +66,8 @@ const addOpen = (): string => 'export default {'
 
 const addComponents = (object: IComponent): string => {
   const components = object.components;
-  return components
-    ? `components: {${components.join(',')}}`
+  return components?.length
+    ? `components: {${components.join(',')}},`
     : ''
 }
 
@@ -76,7 +76,7 @@ const addClose = (): string => '}'
 
 const addProps = (object: IComponent): string => {
   const props = object.props;
-  if (!props) {
+  if (!props?.length) {
     return ''
   }
   const result = props.map((_) => `'${_}'`)
@@ -117,7 +117,7 @@ const addSetup = (object: IComponent): string => {
 
   builder.push('}')
 
-  const result = builder.join(splitter)
+  const result = builder.filter(_ => _?.length).join(splitter)
   return result
 }
 
@@ -142,6 +142,9 @@ const addComputed = (computed: IComponentVariable[]): string => {
 }
 
 const addWatch = (watch: IComponentVariable[]): string => {
+  if (!watch?.length) {
+    return '';
+  }
   const builder: string[] = []
   watch.forEach((item) => {
     builder.push(item.value)

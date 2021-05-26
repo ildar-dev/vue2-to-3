@@ -8,7 +8,8 @@
     "build": "vue-cli-service build",
     "lint": "eslint ./**/*.{ts,js}",
     "prettier": "prettier --config ./.prettierrc --write ./**/*.ts",
-    "start:parser": "node --loader ts-node/esm --experimental-specifier-resolution=node divider/parser"
+    "start:parser": "node --loader ts-node/esm --experimental-specifier-resolution=node divider/parser",
+    "start:file": "node --loader ts-node/esm --experimental-specifier-resolution=node fileCreator/index"
   },
   "dependencies": {
     "core-js": "^3.6.5",
