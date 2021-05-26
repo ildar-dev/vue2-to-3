@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { ComponentOptions, VueDataKeys } from '../helpers/types'
-import { exampleInputData } from '../helpers'
+// import { exampleInputData } from '../helpers'
 import { vue2ConnectionsValues } from '../helpers/utils/vue2'
 
 
@@ -39,4 +39,4 @@ export const initialParse = (input: ComponentOptions<any>) => {
   return initialParserResult
 }
 
-initialParse(exampleInputData)
+// initialParse(exampleInputData)

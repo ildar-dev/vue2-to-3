@@ -1,4 +1,4 @@
-# Migration from Vue 2 to Vue 3
+# Migration from Vue 2 to Vue 3: Beta
 
 ## Project setup
 ```

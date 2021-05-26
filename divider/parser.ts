@@ -1,4 +1,4 @@
-import { exampleInputData } from '../helpers'
+import exampleInputData from '../helpers';
 import { initialParse } from './initialParser'
 import { findDeps } from '../helpers/findDeps'
 import { transformObjectToArray, transformObjectToArrayWithName } from '../helpers/utils'
@@ -169,5 +169,3 @@ export function parser(input: ComponentOptions<any>): IComponent | undefined {
   })
   return result ? (result as IComponent) : undefined
 }
-
-

@@ -37,7 +37,6 @@ export const getComponents = (componentVue: IComponent): number[][] => { // ALHO
       if (b == -1) {
         return;
       }
-      console.log(a1,b);
       g[a1].push(b);
 
       gr[b].push(a1);

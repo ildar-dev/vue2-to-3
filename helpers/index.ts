@@ -3,7 +3,7 @@ import { ComponentOptions } from './types'
 const CategoryEdit = 'CategoryEdit'
 const CategoryCreate = 'CategoryCreate'
 
-export const exampleInputData: ComponentOptions<any> = {
+export default {
   name: 'Categories',
   components: { CategoryEdit, CategoryCreate },
   data: () => ({

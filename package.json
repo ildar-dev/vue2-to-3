@@ -1,7 +1,6 @@
 {
-  "name": "project",
+  "name": "vue2-to-3",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -9,7 +8,8 @@
     "lint": "eslint ./**/*.{ts,js}",
     "prettier": "prettier --config ./.prettierrc --write ./**/*.ts",
     "start:parser": "node --loader ts-node/esm --experimental-specifier-resolution=node divider/parser",
-    "start:file": "node --loader ts-node/esm --experimental-specifier-resolution=node fileCreator/index"
+    "start:file": "node --loader ts-node/esm --experimental-specifier-resolution=node fileCreator/index",
+    "do": "node --loader ts-node/esm --experimental-specifier-resolution=node index"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -31,10 +31,5 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
     "vue-template-compiler": "^2.6.11"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  }
 }
