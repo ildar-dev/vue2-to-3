@@ -1,5 +1,5 @@
 import { WatchOptionsWithHandler } from './core'
-import { vue2ConnectionsValues } from '../helpers/utils/vue2'
+import { vue2ConnectionsValues } from '../helpers/vue2'
 
 export type FieldName = {
   name: string
