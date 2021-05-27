@@ -64,10 +64,16 @@ export const getComponents = (componentVue: IComponent): number[][] => {
       }
     }
   }
+  for (let i = 0; i < n; ++i) {
+    if(!used[i]){
+      dfs1(i)
+    }
+  }
 
-  used.forEach((v, i) => !v && dfs1(i))
 
-  used.map((_) => false)
+  for (let i = 0; i < n; ++i) {
+    used[i]=false
+  }
 
   for (let i = 0; i < n; ++i) {
     const v = order[i] // cancel reverse

@@ -11,7 +11,6 @@ export const fileCreator = async (filePath: string, _options?: unknown): Promise
   const input = await import(path.join(import.meta.url, '../../', filePath))
   const defaultObject = input.default
   const parsedObject = parser(defaultObject)
-
   const dividedObject = divide(parsedObject)
 
   dividedObject.forEach((d) => {
