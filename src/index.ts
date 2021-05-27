@@ -1,3 +1,5 @@
+#!/usr/bin/env node --experimental-specifier-resolution=node
+
 import fs from 'fs'
 import path from 'path'
 import { parser } from './parser'

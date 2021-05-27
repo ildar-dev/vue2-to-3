@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rimraf ./dist && tsc --build",
+    "build": "rimraf ./bin && tsc --build",
     "lint": "eslint ./**/*.{ts,js}",
     "lint:fix": "eslint ./**/*.{ts,js} --fix",
     "prettier": "prettier --config ./.prettierrc --write ./**/*.ts",
