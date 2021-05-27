@@ -28,7 +28,7 @@ export const getComponents = (componentVue: IComponent): number[][] => {
 
   componentVue.properties.forEach((v, a) => {
     const a1 = +a
-    v.connections?.forEach(function (c: TId) {
+    v.connections?.forEach(function(c: TId) {
       const b = componentVue.properties.findIndex((property) => property.id === c)
       if (b == -1) {
         return
@@ -39,9 +39,13 @@ export const getComponents = (componentVue: IComponent): number[][] => {
     })
   })
 
-  const used: Array<boolean> = new Array(n).fill(false)
+  const used: Array<boolean> = new Array(n)
 
-  const dfs1 = function (v: number) {
+  for (let i = 0; i < n; ++i) {
+    used[i] = false
+  }
+
+  const dfs1 = function(v: number) {
     used[v] = true
     for (let i = 0; i < g[v].length; ++i) {
       if (!used[g[v][i]]) {
@@ -51,7 +55,7 @@ export const getComponents = (componentVue: IComponent): number[][] => {
     order.push(v)
   }
 
-  const dfs2 = function (v: number) {
+  const dfs2 = function(v: number) {
     used[v] = true
     component.push(v)
     for (let i = 0; i < gr[v].length; ++i) {
@@ -109,7 +113,7 @@ export const divide = (componentVue: IComponent, groupSingle = true): IComponent
       nameComposition = nameComposition.charAt(0).toUpperCase() + nameComposition.slice(1)
       return {
         components: [],
-        name: `Composition${componentVue.name}${nameComposition}`,
+        name: `Composition${ componentVue.name }${ nameComposition }`,
         props: [],
         properties: component.properties
       }

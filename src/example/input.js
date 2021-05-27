@@ -34,22 +34,17 @@ export default {
   // },
   watch: {
     anotherWatcher: function () {
-      // @ts-ignore
       this.another
     },
 
     someWatcher: function () {
-      // @ts-ignore
       this.some--
     },
     someWatcher1: function () {
-      // @ts-ignore
       this.some++
     },
     someAnotherWatcher: function () {
-      // @ts-ignore
       this.some++
-      // @ts-ignore
       this.another++
     }
     // test: () => {

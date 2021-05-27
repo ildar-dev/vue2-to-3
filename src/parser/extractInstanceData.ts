@@ -1,6 +1,5 @@
 import Vue from 'vue'
 
-// import { exampleInputData } from '../helpers'
 import { ComponentOptions, VueDataKeys } from '../types'
 import { vue2ConnectionsValues } from '../helpers'
 
