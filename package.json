@@ -2,6 +2,8 @@
   "name": "vue2-to-3",
   "version": "0.2.0",
   "type": "module",
+  "types": "bin/index.d.ts",
+  "main": "bin/index.js",
   "scripts": {
     "build": "rimraf ./bin && tsc --build",
     "lint": "eslint ./**/*.{ts,js}",
@@ -12,17 +14,13 @@
     "do:dev": "node --loader ts-node/esm --experimental-specifier-resolution=node src/index",
     "do": "node --experimental-specifier-resolution=node bin/index.js"
   },
-  "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+  "peerDependencies": {
+    "vue": "^2.0"
   },
   "devDependencies": {
     "@types/node": "^15.3.0",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.26.0",
     "eslint-config-google": "^0.14.0",
@@ -32,6 +30,7 @@
     "prettier": "^2.3.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
+    "vue": "^2.0",
     "vue-template-compiler": "^2.6.11"
   },
   "bin": {
