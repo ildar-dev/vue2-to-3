@@ -36,5 +36,24 @@
   },
   "bin": {
     "migrate": "./bin/index.js"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url" : "https://github.com/IldarDavletyarov/vue2-to-3/issues",
+    "email" : "id@ildar.dev"
+  },
+  "keywords": ["vue", "vue2", "vue3", "migration", "composition"],
+  "description": "Migration helper from Vue 2 to Vue 3",
+  "author": {
+    "name" : "Ildar Davletyarov",
+    "email" : "id@ildar.dev",
+    "url" : "https://ildar.dev"
+  },
+  "contributors": [{
+    "name": "Bulat Khaibullin"
+  }],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IldarDavletyarov/vue2-to-3"
   }
 }
