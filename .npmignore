@@ -5,7 +5,7 @@
 .eslintrc
 tsconfig.json
 yarn.lock
-node_modules
+/node_modules
 .idea
 package-lock.json
 yarn.lock
