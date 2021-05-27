@@ -71,7 +71,7 @@ const addProps = (object: IComponent): string => {
 }
 
 const addSetup = (object: IComponent): string => {
-  const builder = []
+  const builder:string[] = []
   const buildFunctions = [
     {
       func: addData,
@@ -104,7 +104,7 @@ const addSetup = (object: IComponent): string => {
 
   builder.push('}')
 
-  return builder.filter((_) => _?.length).join(splitter)
+  return builder.filter((str) => str?.length).join(splitter)
 }
 
 const addReturned = (object: IComponent) => {

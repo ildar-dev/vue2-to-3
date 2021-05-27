@@ -1,10 +1,10 @@
+import fs from 'fs'
 import { parser } from './parser'
 import { divide, stringify } from './helpers'
+
 // import { exampleInputData } from '../helpers' // TODO api
 
 // const output = '' // TODO API
-
-import fs from 'fs'
 
 export const fileCreator = async (path: string, _options?: unknown): Promise<void> => {
   const input = await import(path)
