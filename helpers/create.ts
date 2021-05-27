@@ -1,21 +1,12 @@
-import { toVue3HookName } from './utils/vue2';
-import { EPropertyType, IComponent, IComponentVariable } from './types';
+import { EPropertyType, IComponent, IComponentVariable } from '../types'
+import { toVue3HookName, vue2Hooks } from './vue2'
 
 const splitter = '\n'
 
-const hooks: string[] = [
-  'mounted',
-  'beforeCreate',
-  'beforeDestroy',
-  'beforeMount',
-  'beforeUpdate',
-  'created',
-  'updated',
-  'destroyed'
-].map((_) => toVue3HookName(_))
+vue2Hooks.map((hookName) => toVue3HookName(hookName))
 
 const getProperties = (object: IComponent, type: EPropertyType): IComponentVariable[] => {
-  return object.properties.filter(_ => _.type === type);
+  return object.properties.filter((property) => property.type === type)
 }
 
 export const stringify = (object: IComponent): string => {
@@ -32,28 +23,27 @@ export const stringify = (object: IComponent): string => {
     addClose
   ]
 
-  buildFunctions.forEach(f => {
-    builder.push(f(object));
-  });
+  buildFunctions.forEach((f) => {
+    builder.push(f(object))
+  })
 
-  const result = builder.filter(s => s?.length).join(splitter)
-  return result
+  return builder.filter((s) => s?.length).join(splitter)
 }
 
 const addName = (object: IComponent): string => {
-  return `name: '${object.name}',`;
+  return `name: '${object.name}',`
 }
 
 const addImportComponents = (object: IComponent, from = 'path'): string => {
-  const imports = object.components;
-  return imports && imports.length
-    ? `import {${imports.join(',')}} from '${from}'`
-    : '';
+  const imports = object.components
+  return imports && imports.length ? `import {${imports.join(',')}} from '${from}'` : ''
 }
 
-
 const addImportVue = (object: IComponent): string => {
-  let imports: string[] = ['reactive', ...getProperties(object, EPropertyType.Hook).map(_ => _.name)]
+  let imports: string[] = [
+    'reactive',
+    ...getProperties(object, EPropertyType.Hook).map((property) => property.name)
+  ]
 
   const plugins = ['watch', 'computed']
   const keys = Object.keys(object)
@@ -65,17 +55,14 @@ const addImportVue = (object: IComponent): string => {
 const addOpen = (): string => 'export default {'
 
 const addComponents = (object: IComponent): string => {
-  const components = object.components;
-  return components?.length
-    ? `components: {${components.join(',')}},`
-    : ''
+  const components = object.components
+  return components?.length ? `components: {${components.join(',')}},` : ''
 }
 
 const addClose = (): string => '}'
 
-
 const addProps = (object: IComponent): string => {
-  const props = object.props;
+  const props = object.props
   if (!props?.length) {
     return ''
   }
@@ -88,41 +75,40 @@ const addSetup = (object: IComponent): string => {
   const buildFunctions = [
     {
       func: addData,
-      type: EPropertyType.Data,
+      type: EPropertyType.Data
     },
     {
       func: addComputed,
-      type: EPropertyType.Computed,
+      type: EPropertyType.Computed
     },
     {
       func: addWatch,
-      type: EPropertyType.Watch,
+      type: EPropertyType.Watch
     },
     {
       func: addMethods,
-      type: EPropertyType.Method,
+      type: EPropertyType.Method
     },
     {
       func: addHooks,
-      type: EPropertyType.Hook,
-    },
-  ];
+      type: EPropertyType.Hook
+    }
+  ]
   builder.push('setup(){')
 
-  buildFunctions.forEach(f => {
-    builder.push(f.func(getProperties(object, f.type)));
-  });
+  buildFunctions.forEach((f) => {
+    builder.push(f.func(getProperties(object, f.type)))
+  })
 
-  builder.push(addReturned(object));
+  builder.push(addReturned(object))
 
   builder.push('}')
 
-  const result = builder.filter(_ => _?.length).join(splitter)
-  return result
+  return builder.filter((_) => _?.length).join(splitter)
 }
 
 const addReturned = (object: IComponent) => {
-  return `return {${object.properties.map(p => p.name).join(','+ splitter)}}`;
+  return `return {${object.properties.map((p) => p.name).join(',' + splitter)}}`
 }
 
 const addData = (data: IComponentVariable[]): string => {
@@ -143,7 +129,7 @@ const addComputed = (computed: IComponentVariable[]): string => {
 
 const addWatch = (watch: IComponentVariable[]): string => {
   if (!watch?.length) {
-    return '';
+    return ''
   }
   const builder: string[] = []
   watch.forEach((item) => {

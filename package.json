@@ -6,8 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "eslint ./**/*.{ts,js}",
+    "lint:fix": "eslint ./**/*.{ts,js} --fix",
     "prettier": "prettier --config ./.prettierrc --write ./**/*.ts",
-    "start:parser": "node --loader ts-node/esm --experimental-specifier-resolution=node divider/parser",
+    "start:parser": "node --loader ts-node/esm --experimental-specifier-resolution=node parser/parser",
     "start:file": "node --loader ts-node/esm --experimental-specifier-resolution=node fileCreator/index",
     "do": "node --loader ts-node/esm --experimental-specifier-resolution=node index"
   },
@@ -26,6 +27,7 @@
     "eslint": "^7.26.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-vue": "^6.2.2",
     "prettier": "^2.3.0",
     "ts-node": "^9.1.1",

@@ -1,17 +1,8 @@
 import Vue from 'vue'
 
-import { ComponentOptions, VueDataKeys } from '../helpers/types'
 // import { exampleInputData } from '../helpers'
-import { vue2ConnectionsValues } from '../helpers/utils/vue2'
-
-
-type Mutable<T> = {
-  -readonly [K in keyof T]: T[K]
-}
-
-type Nullable<T> = {
-  [K in keyof T]?: T | null
-}
+import { ComponentOptions, VueDataKeys } from '../types'
+import { vue2ConnectionsValues } from '../helpers'
 
 export type VueConnections = Partial<Record<VueDataKeys, any>>
 
@@ -22,7 +13,7 @@ type ParserResult = {
 
 export const initialParserResult: ParserResult = { data: {} }
 
-export const initialParse = (input: ComponentOptions<any>) => {
+export const extractInstanceData = (input: ComponentOptions<any>) => {
   const instance = new Vue({ ...input, template: '' }) as Vue
   vue2ConnectionsValues.forEach((value) => {
     const vueDataKey = instance.$options[value]
