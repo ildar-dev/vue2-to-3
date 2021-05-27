@@ -2,8 +2,6 @@
   "name": "vue2-to-3",
   "version": "0.1.4",
   "type": "module",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf ./bin && tsc --build",
     "lint": "eslint ./**/*.{ts,js}",
@@ -12,7 +10,7 @@
     "start:parser": "node --loader ts-node/esm --experimental-specifier-resolution=node src/parser/parser",
     "start:file": "node --loader ts-node/esm --experimental-specifier-resolution=node src/fileCreator/index",
     "do:dev": "node --loader ts-node/esm --experimental-specifier-resolution=node src/index",
-    "do": "node --experimental-specifier-resolution=node dist/index.js"
+    "do": "node --experimental-specifier-resolution=node bin/index.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
