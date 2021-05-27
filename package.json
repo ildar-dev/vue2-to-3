@@ -37,6 +37,6 @@
     "vue-template-compiler": "^2.6.11"
   },
   "bin": {
-    "migrate": "dist/index.js"
+    "migrate": "bin/index.js"
   }
 }
