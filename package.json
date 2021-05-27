@@ -15,7 +15,7 @@
     "do": "node --experimental-specifier-resolution=node bin/index.js"
   },
   "peerDependencies": {
-    "vue": "^2.0"
+    "vue": "^2.x"
   },
   "devDependencies": {
     "@types/node": "^15.3.0",
@@ -30,7 +30,7 @@
     "prettier": "^2.3.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
-    "vue": "^2.0",
+    "vue": "^2.x",
     "vue-template-compiler": "^2.6.11"
   },
   "bin": {
