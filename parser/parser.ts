@@ -1,25 +1,25 @@
-import exampleInputData from '../helpers';
-import { initialParse } from './initialParser'
-import { findDeps } from '../helpers/findDeps'
-import { transformObjectToArray, transformObjectToArrayWithName } from '../helpers/utils'
-import { toVue3HookName } from '../helpers/utils/vue2'
+import { extractInstanceData } from './extractInstanceData'
 import {
-  ComponentOptions,
+  findDeps,
+  toVue3HookName,
+  transformObjectToArray,
+  transformObjectToArrayWithName
+} from '../helpers'
+import {
   ConnectionsType,
   EPropertyType,
   IComponent,
+  ComponentOptions,
+  KeysType,
   IComponentVariable,
   InitialIComponent,
-  KeysType,
-  VueDataKeys
-} from '../helpers/types'
+  VueDataKeys,
+  WatcherItem
+} from '../types'
 
-import { divide } from '../helpers/compositionDivide';
-import { stringify } from '../helpers/create';
-
-export function parser(input: ComponentOptions<any>): IComponent | undefined {
+export function parser(input: ComponentOptions<any>): IComponent | never {
   const keys = Object.keys(input) as Array<KeysType>
-  const initialParseResult = initialParse(input)
+  const initialParseResult = extractInstanceData(input)
   const vueConnectionKeysToValue = (Object.keys(initialParseResult.data) as [VueDataKeys]).reduce(
     (acc: Record<any, VueDataKeys>, key: VueDataKeys) => {
       initialParseResult.data[key].forEach((dataField: any) => {
@@ -31,11 +31,10 @@ export function parser(input: ComponentOptions<any>): IComponent | undefined {
   )
   const result: InitialIComponent = {}
 
-
   keys.forEach((i) => {
     const item = input[i]
 
-    const addConnection = (cb: () => void) => {
+    const addConnection = (cb: (...args: any[]) => void) => {
       let connections: ConnectionsType = []
       const deps = findDeps(cb, vueConnectionKeysToValue)
       if (deps) {
@@ -85,25 +84,24 @@ export function parser(input: ComponentOptions<any>): IComponent | undefined {
           } else {
             watchResult = { handler: watchItem, name: key }
           }
-          return watchResult as { handler: any, name: string }
+          return watchResult as WatcherItem
         })
         watchValues.forEach((v) => {
-          const connections = addConnection((v as { handler: () => void }).handler)
+          const connections = addConnection(v.handler)
           addNewProperty({
             type: EPropertyType.Watch,
             value: v.handler,
             name: v.name,
-            id:v.name,
+            id: v.name,
             connections
           })
         })
-
         break
       }
       case 'provide': {
         if (typeof item === 'function') {
           const connections = addConnection(item)
-          Object.keys(item()).forEach(v => {
+          Object.keys(item()).forEach((v) => {
             addNewProperty({
               type: EPropertyType.Provide,
               value: item[v],
@@ -113,7 +111,7 @@ export function parser(input: ComponentOptions<any>): IComponent | undefined {
             })
           })
         } else {
-          Object.keys(item).forEach(v => {
+          Object.keys(item).forEach((v) => {
             const connections = addConnection(() => item[v])
             addNewProperty({
               type: EPropertyType.Provide,
@@ -129,7 +127,7 @@ export function parser(input: ComponentOptions<any>): IComponent | undefined {
       case 'computed':
       case 'methods': {
         transformObjectToArrayWithName(item).forEach((v) => {
-          const connections = addConnection(v.value as () => void)
+          const connections = addConnection(v.value)
           addNewProperty({
             type: i === 'computed' ? EPropertyType.Computed : EPropertyType.Method,
             ...v,
@@ -146,7 +144,7 @@ export function parser(input: ComponentOptions<any>): IComponent | undefined {
       case 'created':
       case 'updated':
       case 'destroyed': {
-        const connections = addConnection(item as () => void)
+        const connections = addConnection(item)
         const name = toVue3HookName(i)
         addNewProperty({
           type: EPropertyType.Hook,
@@ -167,5 +165,9 @@ export function parser(input: ComponentOptions<any>): IComponent | undefined {
       }
     }
   })
-  return result ? (result as IComponent) : undefined
+  if (result) {
+    return result as IComponent
+  } else {
+    throw new Error('Some problem with parse file')
+  }
 }

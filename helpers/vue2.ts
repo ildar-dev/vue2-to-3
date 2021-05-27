@@ -9,9 +9,7 @@ export const vue2Hooks = [
   'updated',
   'beforeDestroy',
   'destroyed'
-]
-
-export const vue2HooksDeprecated = ['beforeCreate', 'created']
+] as const
 
 export function toVue3HookName(name: string): string {
   return 'on' + name[0].toUpperCase() + name.substr(1)
