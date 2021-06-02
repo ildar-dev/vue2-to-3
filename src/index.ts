@@ -15,6 +15,10 @@ export const fileCreator = async (filePath: string, _options?: unknown): Promise
 
   const defaultObject = input.default
   const parsedObject = parser(defaultObject)
+  if (!parsedObject.name?.length) {
+    const split = filePath.split('/');
+    parsedObject.name = split[split.length - 1].split('.').slice(0, -1).join('.') // instead of name in object use file name
+  }
   const dividedObject = divide(parsedObject)
 
   dividedObject.forEach((d) => {
