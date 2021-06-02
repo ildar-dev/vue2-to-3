@@ -43,10 +43,10 @@ import { reactive } from 'vue';
 export default {
   name: 'HelloWorld',
   setup() {
-  	const foo = reactive(['potato']);
-	return {
-		foo,
-	};
+    const foo = reactive(['potato']);
+    return {
+      foo,
+    };
   },
 };
 ```
@@ -59,12 +59,12 @@ import { reactive } from 'vue';
 export default {
   name: 'CompositionHelloWorldSome',
   setup() {
-  	const some = reactive(0);
-	const somePlus = () => { some++ };
-	return {
-		some,
-		somePlus,
-	};
+    const some = reactive(0);
+    const somePlus = () => { some++ };
+    return {
+      some,
+      somePlus,
+    };
   },
 };
 ```
@@ -75,12 +75,12 @@ import { reactive } from 'vue';
 export default {
   name: 'CompositionHelloWorldAnother',
   setup() {
-  	const another = reactive(0);
-	const anotherPlus = () => { another++ };
-	return {
-		another,
-		anotherPlus,
-	};
+    const another = reactive(0);
+    const anotherPlus = () => { another++ };
+    return {
+      another,
+      anotherPlus,
+    };
   },
 };
 ```
