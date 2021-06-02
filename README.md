@@ -86,8 +86,8 @@ export default {
 ```
 
 
-#### Contact
-##### mail: **id@ildar.dev**
-##### tg: **ildardev**
+### Contact
 
+##### [id@ildar.dev](mailto:id@ildar.dev)
+##### [telegram](https://t.me/ildardev)
 
