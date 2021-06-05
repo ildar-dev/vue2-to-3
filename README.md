@@ -40,12 +40,21 @@ HelloWorld.js
 ```
 import { reactive } from 'vue';
 
+import { HelloWorldCompositionSome } from './HelloWorldCompositionSome.js'
+import { HelloWorldCompositionAnother } from './HelloWorldCompositionAnother.js'
+
 export default {
   name: 'HelloWorld',
   setup() {
+    const _HelloWorldCompositionSome = HelloWorldCompositionSome();
+    const _HelloWorldCompositionAnother = HelloWorldCompositionAnother();
     const foo = reactive(['potato']);
     return {
       foo,
+      some: _HelloWorldCompositionSome.some,
+      somePlus: _HelloWorldCompositionSome.somePlus,
+      another: _HelloWorldCompositionAnother.another,
+      anotherPlus: _HelloWorldCompositionAnother.anotherPlus,
     };
   },
 };
@@ -56,32 +65,26 @@ CompositionHelloWorldSome.js
 ```
 import { reactive } from 'vue';
 
-export default {
-  name: 'CompositionHelloWorldSome',
-  setup() {
-    const some = reactive(0);
-    const somePlus = () => { some++ };
-    return {
-      some,
-      somePlus,
-    };
-  },
+export const CompositionHelloWorldSome = () => {
+  const some = reactive(0);
+  const somePlus = () => { some++ };
+  return {
+    some,
+    somePlus,
+  };
 };
 ```
 CompositionHelloWorldAnother.js
 ```
 import { reactive } from 'vue';
 
-export default {
-  name: 'CompositionHelloWorldAnother',
-  setup() {
-    const another = reactive(0);
-    const anotherPlus = () => { another++ };
-    return {
-      another,
-      anotherPlus,
-    };
-  },
+export const CompositionHelloWorldAnother = () => {
+  const another = reactive(0);
+  const anotherPlus = () => { another++ };
+  return {
+    another,
+    anotherPlus,
+  };
 };
 ```
 
