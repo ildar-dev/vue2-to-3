@@ -40,32 +40,32 @@ HelloWorld.js
 ```
 import { reactive } from 'vue';
 
-import { HelloWorldCompositionSome } from './HelloWorldCompositionSome.js'
-import { HelloWorldCompositionAnother } from './HelloWorldCompositionAnother.js'
+import { CompositionSome } from './CompositionSome.js'
+import { CompositionAnother } from './CompositionAnother.js'
 
 export default {
   name: 'HelloWorld',
   setup() {
-    const _HelloWorldCompositionSome = HelloWorldCompositionSome();
-    const _HelloWorldCompositionAnother = HelloWorldCompositionAnother();
+    const _CompositionSome = CompositionSome();
+    const _CompositionAnother = CompositionAnother();
     const foo = reactive(['potato']);
     return {
       foo,
-      some: _HelloWorldCompositionSome.some,
-      somePlus: _HelloWorldCompositionSome.somePlus,
-      another: _HelloWorldCompositionAnother.another,
-      anotherPlus: _HelloWorldCompositionAnother.anotherPlus,
+      some: _CompositionSome.some,
+      somePlus: _CompositionSome.somePlus,
+      another: _CompositionAnother.another,
+      anotherPlus: _CompositionAnother.anotherPlus,
     };
   },
 };
 ```
 Divided compositions:
 
-CompositionHelloWorldSome.js
+CompositionSome.js
 ```
 import { reactive } from 'vue';
 
-export const CompositionHelloWorldSome = () => {
+export const CompositionSome = () => {
   const some = reactive(0);
   const somePlus = () => { some++ };
   return {
@@ -74,11 +74,11 @@ export const CompositionHelloWorldSome = () => {
   };
 };
 ```
-CompositionHelloWorldAnother.js
+CompositionAnother.js
 ```
 import { reactive } from 'vue';
 
-export const CompositionHelloWorldAnother = () => {
+export const CompositionAnother = () => {
   const another = reactive(0);
   const anotherPlus = () => { another++ };
   return {

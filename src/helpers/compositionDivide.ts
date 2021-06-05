@@ -120,7 +120,7 @@ export const divide = (componentVue: IComponent, groupSingle = true): IComponent
       nameComposition = nameComposition.charAt(0).toUpperCase() + nameComposition.slice(1)
       return {
         ...component,
-        name: `Composition${ componentVue.name }${ nameComposition }`,
+        name: `Composition${ nameComposition }`,
       }
     }
   })
