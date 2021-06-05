@@ -110,12 +110,16 @@ export const divide = (componentVue: IComponent, groupSingle = true): IComponent
       }
     })
 
+  const compositions =  componentsVue.length > 1
+  ? [...componentsVue.slice(0, componentsVue.length - 1)]
+  : []
+
   return componentsVue.map((component, i) => {
     if (i === componentsVue.length - 1) {
       // general component
       return {
         ...component,
-        compositions: componentsVue.slice(0, componentsVue.length - 1),
+        compositions,
         isComponent: true,
       };
     } else {

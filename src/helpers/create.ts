@@ -152,7 +152,7 @@ const addReturned = (object: IComponent): string => {
   let properties: string[] = object.properties.map((p) => p.name);
   if (object.isComponent) {
     object.compositions?.forEach((c: IComponent) => {
-      properties = [...properties, ...c.properties.map((p) => p.name)]
+      properties = [...properties, ...c.properties.map((p) => `${ p.name }: ${ c.name }.${ p.name }`)]
     })
   }
   return `return {${properties.join(',' + splitter)}}`
