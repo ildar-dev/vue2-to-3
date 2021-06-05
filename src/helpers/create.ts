@@ -116,11 +116,10 @@ const addSetup = (object: IComponent): string => {
   ]
   if (object.isComponent) {
     builder.push('setup(props){')
+    builder.push(addCompositions(object));
   } else {
     builder.push(`export const ${object.name} = () => {`)
   }
-
-  builder.push(addCompositions(object));
 
   buildFunctions.forEach((f) => {
     builder.push(f.func(getProperties(object, f.type)))
@@ -142,17 +141,17 @@ const addCompositions = (object: IComponent): string => {
   const compositions = object.compositions;
 
   compositions.forEach((c: IComponent) => {
-    builder.push(`const ${ c.name } = ${c.name}()`);
+    builder.push(`const _${ c.name } = ${c.name}()`);
   })
 
   return builder.join(splitter);
 }
 
 const addReturned = (object: IComponent): string => {
-  let properties: string[] = object.properties.map((p) => p.name);
+  let properties: string[] = object.properties.filter((p) => p.type !== EPropertyType.Watch).map((p) => p.name);
   if (object.isComponent) {
     object.compositions?.forEach((c: IComponent) => {
-      properties = [...properties, ...c.properties.map((p) => `${ p.name }: ${ c.name }.${ p.name }`)]
+      properties = [...properties, ...c.properties.filter((p) => p.type !== EPropertyType.Watch).map((p) => `${ p.name }: _${ c.name }.${ p.name }`)]
     })
   }
   return `return {${properties.join(',' + splitter)}}`

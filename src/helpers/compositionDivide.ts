@@ -101,7 +101,7 @@ export const divide = (componentVue: IComponent, groupSingle = true): IComponent
     components.push(singles)
   }
 
-  const componentsVue = components
+  let componentsVue = components
     .sort((c) => c.length)
     .map((c) => {
       return {
@@ -110,8 +110,23 @@ export const divide = (componentVue: IComponent, groupSingle = true): IComponent
       }
     })
 
-  const compositions =  componentsVue.length > 1
-  ? [...componentsVue.slice(0, componentsVue.length - 1)]
+  componentsVue = componentsVue.map((component, i) => { // change name
+    if (i === componentsVue.length - 1) {
+      return {
+        ...component
+      }
+    } else {
+      let nameComposition = [...component.properties].sort((p) => p.name.length)[0].name
+      nameComposition = nameComposition.charAt(0).toUpperCase() + nameComposition.slice(1)
+      return {
+        ...component,
+        name: `Composition${ componentVue.name }${ nameComposition }`,
+      }
+    }
+  })
+
+  const compositions = componentsVue.length > 1
+  ? componentsVue.slice(0, componentsVue.length -1)
   : []
 
   return componentsVue.map((component, i) => {
@@ -123,11 +138,9 @@ export const divide = (componentVue: IComponent, groupSingle = true): IComponent
         isComponent: true,
       };
     } else {
-      let nameComposition = [...component.properties].sort((p) => p.name.length)[0].name
-      nameComposition = nameComposition.charAt(0).toUpperCase() + nameComposition.slice(1)
       return {
         components: [],
-        name: `Composition${ componentVue.name }${ nameComposition }`,
+        name: component.name,
         props: [],
         properties: component.properties,
         isComponent: false,

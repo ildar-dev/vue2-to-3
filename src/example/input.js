@@ -25,6 +25,9 @@ export default {
     // },
     // updateCount: 0
   }),
+  mounted() {
+    console.log('qqq');
+  },
   // provide:{
   //   i:'1',
   // },
