@@ -11,6 +11,11 @@ import { divide, stringify } from './helpers'
 // const output = '' // TODO API
 
 export const fileCreator = async (filePath: string, _options?: unknown): Promise<void> => {
+  if (!filePath?.length) {
+    console.log('Provide path to .js file with vue2 exported object\nExample: migrate ./src/components/HelloWorld.js');
+    return;
+  }
+
   const input = await import(url.pathToFileURL(path.join(process.cwd(), filePath)).href)
 
   const defaultObject = input.default
