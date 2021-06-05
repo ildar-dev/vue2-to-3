@@ -36,6 +36,8 @@ export interface IComponent {
   name: string
   props?: string[]
   properties: IComponentVariable[]
+  compositions?: IComponent[],
+  isComponent: boolean,
 }
 
 export type InitialIComponent = Partial<IComponent>
